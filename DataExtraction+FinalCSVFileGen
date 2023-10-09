@@ -1,0 +1,67 @@
+import requests
+import pandas as pd
+from urllib.parse import urlparse, parse_qs
+
+# Ask the user to input the website URL
+url = input("Enter the website URL: ")
+
+# Parse the URL to extract necessary information
+parsed_url = urlparse(url)
+query_params = parse_qs(parsed_url.query)
+challenge_id = query_params.get('id', [''])[0]
+
+# Check if the challenge_id is present
+if not challenge_id:
+    print("Invalid URL. Please provide a valid URL with a 'id' query parameter.")
+else:
+    # Construct the API URL
+    api_url = f"https://learn.microsoft.com/api/challenges/{challenge_id}/leaderboard?$top=1000&$skip=0&locale=en-gb"
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36'
+    }
+
+    # Make a GET request to the API endpoint
+    r = requests.get(api_url, headers=headers)
+
+    if r.status_code == 200:
+        # Convert the JSON response to a DataFrame
+        df = pd.json_normalize(r.json(), record_path=['results'])
+
+        # Select and rename the columns you want
+        df = df.rename(columns={'userDisplayName': 'Name', 'score': 'Modules Completed'})
+
+        # Convert the "Modules Completed" column to integers
+        df['Modules Completed'] = df['Modules Completed'].astype(int)
+
+        # Define the CSV file name
+        csv_file_name = 'leaderboard.csv'
+
+        # Save the selected columns to a CSV file
+        df[['Name', 'Modules Completed']].to_csv(csv_file_name, index=False)
+
+        print(f"Data has been saved to {csv_file_name}.")
+
+        # Now, load PartData.csv and perform the comparison
+        part_data_df = pd.read_csv('PartData.csv')
+        
+        # Convert the names in both DataFrames to lowercase
+        df['Name'] = df['Name'].str.lower()
+        part_data_df['Name'] = part_data_df['Name'].str.lower()
+        
+        # Merge the two DataFrames based on the 'Name' column (ignoring case)
+        merged_df = df.merge(part_data_df, on='Name', how='inner')
+        
+        # Select only the 'Name' and 'Email' columns
+        final_df = merged_df[['Name', 'Email']]
+        
+        # Remove duplicate entries based on the 'Email' column
+        final_df = final_df.drop_duplicates(subset=['Email'])
+        
+        # Save the matching data to a new CSV file
+        matching_csv_file_name = 'matching_data.csv'
+        final_df.to_csv(matching_csv_file_name, index=False)
+        
+        print(f"Matching data (Name and Email) with duplicates removed has been saved to {matching_csv_file_name}.")
+    else:
+        print(f"Failed to retrieve data from the API. Status code: {r.status_code}")
