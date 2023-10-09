@@ -12,7 +12,7 @@ challenge_id = query_params.get('id', [''])[0]
 
 # Check if the challenge_id is present
 if not challenge_id:
-    print("Invalid URL. Please provide a valid URL with a 'id' query parameter.")
+    print("Invalid URL. Please provide a valid URL with an 'id' query parameter.")
 else:
     # Construct the API URL
     api_url = f"https://learn.microsoft.com/api/challenges/{challenge_id}/leaderboard?$top=1000&$skip=0&locale=en-gb"
@@ -34,13 +34,8 @@ else:
         # Convert the "Modules Completed" column to integers
         df['Modules Completed'] = df['Modules Completed'].astype(int)
 
-        # Define the CSV file name
-        csv_file_name = 'leaderboard.csv'
-
-        # Save the selected columns to a CSV file
-        df[['Name', 'Modules Completed']].to_csv(csv_file_name, index=False)
-
-        print(f"Data has been saved to {csv_file_name}.")
+        # Define the CSV file name for all participants
+        all_participants_csv = 'participants.csv'
 
         # Now, load PartData.csv and perform the comparison
         part_data_df = pd.read_csv('PartData.csv')
@@ -52,16 +47,28 @@ else:
         # Merge the two DataFrames based on the 'Name' column (ignoring case)
         merged_df = df.merge(part_data_df, on='Name', how='inner')
         
-        # Select only the 'Name' and 'Email' columns
-        final_df = merged_df[['Name', 'Email']]
+        # Select only the 'Name' and 'Email' columns for participants who have participated
+        participated_df = merged_df[['Name', 'Email']]
         
-        # Remove duplicate entries based on the 'Email' column
-        final_df = final_df.drop_duplicates(subset=['Email'])
+        # Remove duplicate entries based on the 'Email' column for participants who have participated
+        participated_df = participated_df.drop_duplicates(subset=['Email'])
         
-        # Save the matching data to a new CSV file
-        matching_csv_file_name = 'matching_data.csv'
-        final_df.to_csv(matching_csv_file_name, index=False)
+        # Save the data of participants who have participated to a CSV file
+        participated_csv = 'participants.csv'
+        participated_df.to_csv(participated_csv, index=False)
         
-        print(f"Matching data (Name and Email) with duplicates removed has been saved to {matching_csv_file_name}.")
+        print(f"Data for participants who have participated has been saved to {participated_csv}.")
+
+        # Select only the 'Name' and 'Email' columns for participants who have completed all modules
+        completed_df = merged_df[merged_df['Modules Completed'] == merged_df['Modules Completed'].max()][['Name', 'Email']]
+        
+        # Remove duplicate entries based on the 'Email' column for participants who have completed all modules
+        completed_df = completed_df.drop_duplicates(subset=['Email'])
+        
+        # Save the data of participants who have completed all modules to a CSV file
+        completed_csv = 'completed_modules.csv'
+        completed_df.to_csv(completed_csv, index=False)
+        
+        print(f"Data for participants who have completed all modules has been saved to {completed_csv}.")
     else:
         print(f"Failed to retrieve data from the API. Status code: {r.status_code}")
