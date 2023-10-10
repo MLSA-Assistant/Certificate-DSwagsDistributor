@@ -53,6 +53,9 @@ else:
         # Remove duplicate entries based on the 'Email' column for participants who have participated
         participated_df = participated_df.drop_duplicates(subset=['Email'])
         
+        # Convert the 'Name' column to uppercase
+        participated_df['Name'] = participated_df['Name'].str.upper()
+        
         # Save the data of participants who have participated to a CSV file
         participated_csv = 'participants.csv'
         participated_df.to_csv(participated_csv, index=False)
@@ -64,6 +67,9 @@ else:
         
         # Remove duplicate entries based on the 'Email' column for participants who have completed all modules
         completed_df = completed_df.drop_duplicates(subset=['Email'])
+        
+        # Convert the 'Name' column to uppercase
+        completed_df['Name'] = completed_df['Name'].str.upper()
         
         # Save the data of participants who have completed all modules to a CSV file
         completed_csv = 'completed_modules.csv'
