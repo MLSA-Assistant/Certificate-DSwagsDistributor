@@ -1,0 +1,85 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    background-image: url('bg2.jpg');
+}
+
+.navbar{
+    margin: 6px;
+    padding: 11px;
+    position: sticky;
+    left: auto;
+    width: auto;
+    top: 16px;
+    color: aliceblue;
+    background: darkgreen;
+}
+
+.intro{
+    margin: auto;
+    text-align: center;
+    height: auto;
+    width: auto;
+    font-size: 2vw;
+}
+
+body{
+    background-image: url('bg2.jpg');
+}
+
+.container{
+    margin: auto;
+    position: relative;
+    top: 68px;
+    left: 7px;
+    color: aliceblue;
+    font-size: 1.4vw;
+    text-align: center;
+}
+
+.welcome{
+    text-decoration: none;
+    list-style: none;
+    margin-bottom: 23px;
+}
+
+.certificate{
+    top: 4.2vw;
+    left: 15.1vw;
+    height: 19.2vw;
+    box-sizing: content-box;
+    width: 60%;
+    text-decoration: none;
+    position: relative;
+    list-style: none;
+    margin-bottom: 23px;
+}
+
+.box{
+    color: aliceblue;
+    background: #043592;
+    position: relative;
+    top: 8.2vw;
+    left: 39%;
+    margin-right: 4%;
+    width: 10%;
+    padding: 13px;
+    font-size: 1vw;
+    border: none;
+}
+
+.box:hover{
+    background: black;
+    color: white;
+    border: 1px solid #e1e3e7;
+    cursor: pointer;
+}
+
+.box:active{
+    background: #043592;
+    color: aliceblue;
+    border: cornflowerblue;
+}

@@ -1,0 +1,99 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    background-image: url('bg2.jpg');
+}
+
+.navbar{
+    margin: 6px;
+    padding: 11px;
+    position: sticky;
+    left: auto;
+    width: auto;
+    top: 16px;
+    color: aliceblue;
+    background: darkgreen;
+}
+
+.intro{
+    margin: auto;
+    text-align: center;
+    height: auto;
+    width: auto;
+    font-size: 2vw;
+}
+
+.container{
+    margin: auto;
+    position: relative;
+    top: 68px;
+    left: 7px;
+    color: aliceblue;
+    font-size: 1.4vw;
+    text-align: center;
+}
+
+.form{
+    margin: auto;
+}
+
+.name{
+    position: relative;
+    top: 10.7vw;
+    font-size: 1.2vw;
+    color: aqua;
+    left: 30vw;
+    margin: auto;
+}
+
+.enter{
+    margin: auto;
+    margin-bottom: -3vw;
+    position: relative;
+    width: 27%;
+    height: 2.3vw;
+    top: 9vw;
+    background: center;
+    left: 12vw;
+    display: flex;
+    PADDING-LEFT: 1.2VW;
+    /* TEXT-ALIGN: justify; */
+    /* PADDING: 0.2VW; */
+    FONT-FAMILY: sans-serif;
+    FONT-WEIGHT: lighter;
+    COLOR: #DAC70A;
+    border-end-end-radius: 21px;
+    border-block-end-color: unset;
+}
+
+
+
+.box{
+    color: aliceblue;
+    background: #043592;
+    position: relative;
+    top: 12.4vw;
+    width: 10%;
+    padding: 10px;
+    left: 45.3vw;
+    font-size: 1.1vw;
+    border: 1px solid cornflowerblue;
+    
+}
+
+
+.box:hover{
+    background: black;
+    color: white;
+    border: 1px solid #e1e3e7;
+    cursor: pointer;
+}
+
+.box:active{
+    background: #043592;
+    color: aliceblue;
+    border: 1px solid cornflowerblue;
+}
